@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#3b82f6">
+<title>로마노프 초능력 영어 - 모바일</title>
+<style>
+:root {
+  --bg: #f8fafc;
+  --text: #1e293b;
+  --card: #ffffff;
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --accent: #ef4444;
+  --border: #e2e8f0;
+  --shadow: 0 4px 12px rgba(0,0,0,0.08);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+body.dark {
+  --bg: #0f172a;
+  --text: #f1f5f9;
+  --card: #1e293b;
+  --primary: #60a5fa;
+  --primary-dark: #3b82f6;
+  --border: #334155;
+  --shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+.container {
+  max-width: 100%;
+  padding: 12px 12px calc(80px + var(--safe-bottom));
+  min-height: 100vh;
+}
+.header {
+  text-align: center;
+  padding: 8px 0 12px;
+  position: sticky;
+  top: 0;
+  background: var(--bg);
+  z-index: 10;
+}
+.header h1 {
+  font-size: 1.35rem;
+  margin: 0;
+  line-height: 1.3;
+}
+.header .subtitle {
+  font-size: 0.85rem;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+.theme-btn {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  width: auto !important;
+  padding: 8px 12px !important;
+  font-size: 13px !important;
+  border-radius: 20px !important;
+}
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 6px 4px calc(6px + var(--safe-bottom));
+  z-index: 100;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.06);
+}
+.nav-btn {
+  flex: 1;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 11px;
+  padding: 6px 2px;
+  text-align: center;
+  opacity: 0.65;
+  cursor: pointer;
+  min-height: 48px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+}
+.nav-btn.active {
+  opacity: 1;
+  color: var(--primary);
+  font-weight: 600;
+}
+.nav-btn span {
+  font-size: 20px;
+  line-height: 1;
+}
+.section { display: none; padding-bottom: 20px; }
+.section.active { display: block; }
+.alphabet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: var(--shadow);
+}
+.card h3 { margin: 0 0 6px; font-size: 1.4rem; color: var(--primary); }
+input, textarea, button {
+  font-size: 16px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  width: 100%;
+  min-height: 48px;
+}
+button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  font-weight: 600;
+  margin: 6px 0;
+  cursor: pointer;
+}
+button:active { transform: scale(0.98); }
+button.secondary { background: #64748b; }
+button.danger { background: var(--accent); }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.row > * { flex: 1; min-width: 120px; }
+.flashcard {
+  width: 100%;
+  max-width: 380px;
+  height: 280px;
+  margin: 16px auto;
+  perspective: 1000px;
+}
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+.flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+.front, .back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: center;
+  overflow: auto;
+  box-shadow: var(--shadow);
+}
+.back { transform: rotateY(180deg); }
+.front h2 { font-size: 1.4rem; margin: 8px 0; line-height: 1.4; }
+.small { font-size: 0.85rem; opacity: 0.75; }
+.category {
+  font-size: 0.7rem;
+  background: var(--primary);
+  color: white;
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-block;
+}
+.vocab-item { margin-bottom: 12px; }
+.vocab-item h3 { font-size: 1.15rem; word-break: break-word; }
+@media (min-width: 768px) {
+  .container { max-width: 720px; margin: 0 auto; padding-bottom: 20px; }
+  .bottom-nav { display: none; }
+  .tabs-desktop { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+  .tabs-desktop button { flex: 1; min-width: 100px; }
+}
+@media (max-width: 767px) {
+  .tabs-desktop { display: none; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <button id="themeToggle" class="theme-btn">다크</button>
+    <h1>로마노프 초능력 영어</h1>
+    <div class="subtitle">생활영어 100문장 · 모바일 최적화</div>
+  </div>
+  <div class="tabs-desktop">
+    <button class="tab-btn active" data-tab="usage">사용법</button>
+    <button class="tab-btn" data-tab="alphabet">알파벳</button>
+    <button class="tab-btn" data-tab="analyzer">분석</button>
+    <button class="tab-btn" data-tab="vocab">단어장</button>
+    <button class="tab-btn" data-tab="quiz">복습</button>
+  </div>
+  <div id="usage" class="section active">
+    <h2>사용법</h2>
+    <div class="card">
+      <ol style="padding-left: 20px; margin: 0;">
+        <li><strong>단어장</strong>에 생활영어 100문장이 미리 저장되어 있습니다.</li>
+        <li>각 문장에 <strong>알파벳 스토리</strong>가 연결되어 있습니다.</li>
+        <li>하단 <strong>복습</strong> 탭에서 플래시카드로 바로 학습하세요.</li>
+        <li>카드를 탭하면 뒤집힙니다 (영어 ↔ 뜻+스토리).</li>
+        <li>홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</li>
+      </ol>
+      <p style="margin-top:12px;"><button onclick="loadDefaultSentences()" class="secondary">100문장 다시 불러오기</button></p>
+    </div>
+    <div class="card" style="margin-top:12px;">
+      <p style="margin:0;"><strong>홈 화면에 추가하는 방법</strong></p>
+      <p class="small" style="margin:6px 0 0;">
+        iPhone: 공유 버튼 → “홈 화면에 추가”<br>
+        Android: 메뉴(⋮) → “홈 화면에 추가” 또는 “앱 설치”
+      </p>
+    </div>
+  </div>
+  <div id="alphabet" class="section">
+    <h2>알파벳 비밀 참고표</h2>
+    <div id="alphabetGrid" class="alphabet-grid"></div>
+  </div>
+  <div id="analyzer" class="section">
+    <h2>단어/문장 분석</h2>
+    <input type="text" id="wordInput" placeholder="영어 단어나 문장 입력" autocomplete="off">
+    <button id="analyzeBtn">분석하기</button>
+    <div id="analysisResult"></div>
+    <div id="saveSection" style="display:none; margin-top:12px;">
+      <input type="text" id="meaningInput" placeholder="뜻 (한국어)">
+      <textarea id="storyText" rows="5" placeholder="스토리"></textarea>
+      <button id="saveBtn">단어장에 저장</button>
+    </div>
+  </div>
+  <div id="vocab" class="section">
+    <h2>내 단어장</h2>
+    <input type="text" id="searchInput" placeholder="검색 (문장, 뜻, 카테고리)">
+    <div class="row" style="margin:8px 0;">
+      <button id="exportBtn" class="secondary">내보내기</button>
+      <button onclick="loadDefaultSentences()">100문장 불러오기</button>
+    </div>
+    <div id="stats"></div>
+    <div id="vocabList"></div>
+  </div>
+  <div id="quiz" class="section">
+    <h2>플래시카드 / 퀴즈</h2>
+    <div class="row">
+      <button id="startFlash">플래시카드 시작</button>
+      <button id="startQuiz">퀴즈 시작</button>
+    </div>
+    <div id="quizArea"></div>
+  </div>
+</div>
+<nav class="bottom-nav">
+  <button class="nav-btn active" data-tab="usage"><span>📖</span>사용법</button>
+  <button class="nav-btn" data-tab="alphabet"><span>🔤</span>알파벳</button>
+  <button class="nav-btn" data-tab="analyzer"><span>🔍</span>분석</button>
+  <button class="nav-btn" data-tab="vocab"><span>📚</span>단어장</button>
+  <button class="nav-btn" data-tab="quiz"><span>🃏</span>복습</button>
+</nav>
+<script>
+const alphabet = {
+  A:{ko:'단일 존재',en:'single entity'}, B:{ko:'기반',en:'base'}, C:{ko:'감싸다',en:'enclose'},
+  D:{ko:'마무리',en:'finish'}, E:{ko:'활성화',en:'energy'}, F:{ko:'분리',en:'separation'},
+  G:{ko:'선택',en:'selection'}, H:{ko:'나오다',en:'emerging'}, I:{ko:'확실함',en:'definite'},
+  J:{ko:'흔들림',en:'shaking'}, K:{ko:'향하다',en:'toward'}, L:{ko:'실체',en:'reality'},
+  M:{ko:'만들다',en:'making'}, N:{ko:'선을 그다',en:'no/line'}, O:{ko:'연결',en:'connection'},
+  P:{ko:'표시하다',en:'marking'}, Q:{ko:'처음부터 끝까지',en:'from start to end'}, R:{ko:'들어올리다',en:'raising'},
+  S:{ko:'반복 움직임',en:'repeated'}, T:{ko:'점·지점',en:'point'}, U:{ko:'담다',en:'containing'},
+  V:{ko:'퍼지다',en:'spreading'}, W:{ko:'나누어 넣다',en:'dividing'}, X:{ko:'잘라내다',en:'cutting'},
+  Y:{ko:'가리키다',en:'pointing'}, Z:{ko:'자유롭게 움직임',en:'moving freely'}
+};
+const defaultSentences = [
+  {en:"Hi, how are you?", ko:"안녕, 잘 지내?", cat:"인사"},
+  {en:"I'm fine, thanks. And you?", ko:"잘 지내요. 당신은요?", cat:"인사"},
+  {en:"Good morning!", ko:"좋은 아침이에요!", cat:"인사"},
+  {en:"Good night.", ko:"잘 자요.", cat:"인사"},
+  {en:"See you later.", ko:"나중에 봐요.", cat:"인사"},
+  {en:"Nice to meet you.", ko:"만나서 반가워요.", cat:"인사"},
+  {en:"What's your name?", ko:"이름이 뭐예요?", cat:"인사"},
+  {en:"My name is Kim.", ko:"제 이름은 김입니다.", cat:"인사"},
+  {en:"Where are you from?", ko:"어디서 오셨어요?", cat:"인사"},
+  {en:"I'm from Korea.", ko:"한국에서 왔어요.", cat:"인사"},
+  {en:"How old are you?", ko:"몇 살이에요?", cat:"인사"},
+  {en:"What do you do?", ko:"무슨 일 하세요?", cat:"인사"},
+  {en:"I'm a student.", ko:"학생이에요.", cat:"인사"},
+  {en:"Have a nice day!", ko:"좋은 하루 보내세요!", cat:"인사"},
+  {en:"Take care.", ko:"몸 조심해요.", cat:"인사"},
+  {en:"Thank you.", ko:"감사합니다.", cat:"감사"},
+  {en:"Thank you very much.", ko:"정말 감사합니다.", cat:"감사"},
+  {en:"You're welcome.", ko:"천만에요.", cat:"감사"},
+  {en:"I'm sorry.", ko:"미안해요.", cat:"사과"},
+  {en:"That's okay.", ko:"괜찮아요.", cat:"사과"},
+  {en:"Excuse me.", ko:"실례합니다.", cat:"부탁"},
+  {en:"Can you help me?", ko:"도와주실 수 있나요?", cat:"부탁"},
+  {en:"Please.", ko:"부탁합니다.", cat:"부탁"},
+  {en:"No problem.", ko:"문제없어요.", cat:"감사"},
+  {en:"I appreciate it.", ko:"감사해요.", cat:"감사"},
+  {en:"Don't worry.", ko:"걱정 마세요.", cat:"위로"},
+  {en:"It's my fault.", ko:"제 잘못이에요.", cat:"사과"},
+  {en:"Can I ask you something?", ko:"뭐 좀 물어봐도 될까요?", cat:"부탁"},
+  {en:"Sure.", ko:"물론이죠.", cat:"응답"},
+  {en:"Of course.", ko:"당연하죠.", cat:"응답"},
+  {en:"I'd like to order, please.", ko:"주문할게요.", cat:"식당"},
+  {en:"Can I see the menu?", ko:"메뉴판 좀 볼 수 있을까요?", cat:"식당"},
+  {en:"What do you recommend?", ko:"뭐가 맛있어요?", cat:"식당"},
+  {en:"I'll have this, please.", ko:"이걸로 할게요.", cat:"식당"},
+  {en:"For here or to go?", ko:"여기서 드시겠어요, 포장이요?", cat:"식당"},
+  {en:"To go, please.", ko:"포장이요.", cat:"식당"},
+  {en:"Can I get a glass of water?", ko:"물 한 잔 주시겠어요?", cat:"식당"},
+  {en:"It's delicious!", ko:"맛있어요!", cat:"식당"},
+  {en:"The bill, please.", ko:"계산서 주세요.", cat:"식당"},
+  {en:"Can I pay by card?", ko:"카드로 결제해도 될까요?", cat:"식당"},
+  {en:"How much is it?", ko:"얼마예요?", cat:"쇼핑"},
+  {en:"Do you have any vegetarian options?", ko:"채식 메뉴 있나요?", cat:"식당"},
+  {en:"I'm allergic to nuts.", ko:"견과류 알레르기가 있어요.", cat:"식당"},
+  {en:"Can I have some more?", ko:"더 주실 수 있나요?", cat:"식당"},
+  {en:"This is too spicy.", ko:"너무 매워요.", cat:"식당"},
+  {en:"Can I change this?", ko:"이거 바꿀 수 있나요?", cat:"쇼핑"},
+  {en:"Is service included?", ko:"서비스 포함인가요?", cat:"식당"},
+  {en:"I'll take it.", ko:"이걸로 할게요.", cat:"쇼핑"},
+  {en:"No, thank you.", ko:"아니요, 괜찮아요.", cat:"응답"},
+  {en:"Enjoy your meal!", ko:"맛있게 드세요!", cat:"식당"},
+  {en:"How much is this?", ko:"이거 얼마예요?", cat:"쇼핑"},
+  {en:"Do you have this in a different size?", ko:"다른 사이즈 있나요?", cat:"쇼핑"},
+  {en:"Can I try this on?", ko:"입어봐도 될까요?", cat:"쇼핑"},
+  {en:"Where is the fitting room?", ko:"탈의실이 어디예요?", cat:"쇼핑"},
+  {en:"It's too big.", ko:"너무 커요.", cat:"쇼핑"},
+  {en:"It's too small.", ko:"너무 작아요.", cat:"쇼핑"},
+  {en:"Do you have anything cheaper?", ko:"더 저렴한 거 있나요?", cat:"쇼핑"},
+  {en:"Can I get a discount?", ko:"할인 되나요?", cat:"쇼핑"},
+  {en:"Do you accept credit cards?", ko:"신용카드 받나요?", cat:"쇼핑"},
+  {en:"Can I have a receipt?", ko:"영수증 주시겠어요?", cat:"쇼핑"},
+  {en:"Where can I find this?", ko:"이건 어디에 있나요?", cat:"쇼핑"},
+  {en:"I'm just looking, thanks.", ko:"그냥 구경만 할게요.", cat:"쇼핑"},
+  {en:"Is this on sale?", ko:"이거 세일인가요?", cat:"쇼핑"},
+  {en:"Can I return this?", ko:"반품 가능한가요?", cat:"쇼핑"},
+  {en:"Do you have a bag?", ko:"봉투 주시겠어요?", cat:"쇼핑"},
+  {en:"Excuse me, where is the subway station?", ko:"실례합니다, 지하철역이 어디예요?", cat:"길"},
+  {en:"How do I get to the station?", ko:"역에 어떻게 가요?", cat:"길"},
+  {en:"Is it far from here?", ko:"여기서 멀어요?", cat:"길"},
+  {en:"Can you show me on the map?", ko:"지도에서 보여주실 수 있나요?", cat:"길"},
+  {en:"Turn left.", ko:"왼쪽으로 도세요.", cat:"길"},
+  {en:"Turn right.", ko:"오른쪽으로 도세요.", cat:"길"},
+  {en:"Go straight.", ko:"직진하세요.", cat:"길"},
+  {en:"It's on your left.", ko:"왼쪽에 있어요.", cat:"길"},
+  {en:"How long does it take?", ko:"얼마나 걸려요?", cat:"길"},
+  {en:"Where is the bus stop?", ko:"버스 정류장이 어디예요?", cat:"길"},
+  {en:"Does this bus go to downtown?", ko:"이 버스 시내로 가나요?", cat:"길"},
+  {en:"One ticket, please.", ko:"표 한 장 주세요.", cat:"교통"},
+  {en:"How much is the fare?", ko:"요금이 얼마예요?", cat:"교통"},
+  {en:"Where should I get off?", ko:"어디서 내리나요?", cat:"교통"},
+  {en:"I'm lost.", ko:"길을 잃었어요.", cat:"길"},
+  {en:"Can you call a taxi for me?", ko:"택시 불러주실 수 있나요?", cat:"교통"},
+  {en:"What time is it?", ko:"지금 몇 시예요?", cat:"일상"},
+  {en:"I'm hungry.", ko:"배고파요.", cat:"일상"},
+  {en:"I'm tired.", ko:"피곤해요.", cat:"일상"},
+  {en:"I'm cold.", ko:"추워요.", cat:"일상"},
+  {en:"I'm hot.", ko:"더워요.", cat:"일상"},
+  {en:"Can you speak more slowly?", ko:"좀 더 천천히 말해 주실 수 있나요?", cat:"의사소통"},
+  {en:"I don't understand.", ko:"이해가 안 돼요.", cat:"의사소통"},
+  {en:"Could you repeat that?", ko:"다시 한 번 말해 주실 수 있나요?", cat:"의사소통"},
+  {en:"What does this mean?", ko:"이게 무슨 뜻이에요?", cat:"의사소통"},
+  {en:"I'm looking forward to it.", ko:"기대돼요.", cat:"일상"},
+  {en:"Let's go!", ko:"가자!", cat:"일상"},
+  {en:"Wait a minute.", ko:"잠깐만요.", cat:"일상"},
+  {en:"Hurry up!", ko:"서둘러요!", cat:"일상"},
+  {en:"Be careful.", ko:"조심하세요.", cat:"일상"},
+  {en:"I agree.", ko:"동의해요.", cat:"의견"},
+  {en:"I don't think so.", ko:"그렇게 생각 안 해요.", cat:"의견"},
+  {en:"That sounds good.", ko:"좋은 생각이에요.", cat:"의견"},
+  {en:"Maybe later.", ko:"나중에 할게요.", cat:"일상"},
+  {en:"I'm on my way.", ko:"지금 가는 중이에요.", cat:"일상"},
+  {en:"Call me later.", ko:"나중에 전화해요.", cat:"일상"},
+  {en:"Have a great weekend!", ko:"좋은 주말 보내세요!", cat:"인사"}
+];
+const STORAGE_KEY = 'romanoff100Mobile';
+let vocab = [];
+function generateStory(sentence) {
+  const words = sentence.replace(/[^a-zA-Z\s]/g, '').split(/\s+/).filter(w => w.length > 1);
+  if (!words.length) return "간단한 표현입니다.";
+  const main = words[0].toUpperCase();
+  let s = `【${sentence}】\n주요 단어: ${main}\n`;
+  for (const ch of main) {
+    if (alphabet[ch]) s += `${ch} → ${alphabet[ch].ko}\n`;
+  }
+  const parts = [...main].filter(c => alphabet[c]).map(c => alphabet[c].ko);
+  s += `\n기억 흐름: ${parts.slice(0,4).join(' → ')}`;
+  return s;
+}
+function loadVocab() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    vocab = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(vocab) || vocab.length === 0) loadDefaultSentences(false);
+  } catch { loadDefaultSentences(false); }
+}
+function loadDefaultSentences(alertUser = true) {
+  vocab = defaultSentences.map((s, i) => ({
+    id: Date.now() + i,
+    word: s.en,
+    meaning: s.ko,
+    story: generateStory(s.en),
+    category: s.cat,
+    created: new Date().toISOString(),
+    lastStudied: null
+  }));
+  saveVocab();
+  if (alertUser) alert('생활영어 100문장이 저장되었습니다!');
+  renderVocab();
+}
+function saveVocab() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(vocab));
+}
+function initTheme() {
+  if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+  document.getElementById('themeToggle').onclick = () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  };
+}
+function switchTab(tabId) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn, .tabs-desktop button').forEach(b => b.classList.remove('active'));
+  const section = document.getElementById(tabId);
+  if (section) section.classList.add('active');
+  document.querySelectorAll(`[data-tab="${tabId}"]`).forEach(b => b.classList.add('active'));
+  if (tabId === 'vocab') renderVocab(document.getElementById('searchInput').value);
+  if (tabId === 'alphabet') renderAlphabet();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function renderAlphabet() {
+  const grid = document.getElementById('alphabetGrid');
+  if (grid.children.length) return;
+  Object.keys(alphabet).forEach(letter => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `<h3>${letter}</h3><p style="margin:0;font-size:0.9rem;">${alphabet[letter].ko}</p>`;
+    card.onclick = () => alert(`${letter}: ${alphabet[letter].ko}\n(${alphabet[letter].en})`);
+    grid.appendChild(card);
+  });
+}
+function renderVocab(filter = '') {
+  const list = document.getElementById('vocabList');
+  const q = filter.toLowerCase().trim();
+  const filtered = vocab.filter(v =>
+    v.word.toLowerCase().includes(q) ||
+    v.meaning.includes(q) ||
+    (v.category && v.category.includes(q))
+  );
+  document.getElementById('stats').innerHTML = `<p style="margin:8px 0;">총 <strong>${vocab.length}</strong>개 문장</p>`;
+  if (!filtered.length) {
+    list.innerHTML = '<p>검색 결과가 없습니다.</p>';
+    return;
+  }
+  list.innerHTML = filtered.map(v => `
+    <div class="card vocab-item">
+      <span class="category">${v.category || '일반'}</span>
+      <h3 style="margin:8px 0 4px;">${escapeHtml(v.word)}</h3>
+      <p style="margin:4px 0;"><strong>뜻:</strong> ${escapeHtml(v.meaning)}</p>
+      <details style="margin-top:6px;">
+        <summary class="small">알파벳 스토리</summary>
+        <pre style="white-space:pre-wrap;font-size:0.8rem;margin:6px 0 0;">${escapeHtml(v.story)}</pre>
+      </details>
+      <button onclick="speak('${v.word.replace(/'/g,"\\'")}')" style="width:auto;padding:8px 16px;margin-top:8px;min-height:40px;">🔊 발음</button>
+    </div>
+  `).join('');
+}
+function escapeHtml(s) {
+  return (s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+}
+function speak(text) {
+  if (!window.speechSynthesis) return alert('이 브라우저는 음성 합성을 지원하지 않습니다.');
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'en-US';
+  u.rate = 0.85;
+  speechSynthesis.speak(u);
+}
+let currentList = [], quizIndex = 0;
+function startFlash() {
+  if (!vocab.length) return alert('단어장이 비어 있습니다.');
+  currentList = [...vocab].sort(() => Math.random() - 0.5);
+  quizIndex = 0;
+  showFlash();
+}
+function showFlash() {
+  const item = currentList[quizIndex];
+  document.getElementById('quizArea').innerHTML = `
+    <div class="flashcard" onclick="this.classList.toggle('flipped')">
+      <div class="flashcard-inner">
+        <div class="front">
+          <span class="category">${item.category || ''}</span>
+          <h2>${escapeHtml(item.word)}</h2>
+          <p class="small">탭하여 뒤집기</p>
+        </div>
+        <div class="back">
+          <p style="font-size:1.2rem;font-weight:600;margin:0 0 12px;">${escapeHtml(item.meaning)}</p>
+          <p class="small" style="text-align:left;line-height:1.6;">${escapeHtml(item.story).replace(/\n/g,'<br>')}</p>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="max-width:400px;margin:12px auto;">
+      <button onclick="speak('${item.word.replace(/'/g,"\\'")}')">🔊 발음</button>
+      <button onclick="nextCard()">다음 →</button>
+    </div>
+    <p style="text-align:center;margin:8px 0;">${quizIndex + 1} / ${currentList.length}</p>
+  `;
+}
+function nextCard() {
+  quizIndex++;
+  if (quizIndex >= currentList.length) {
+    document.getElementById('quizArea').innerHTML = '<div class="card" style="text-align:center;padding:30px;"><p style="font-size:1.3rem;margin:0;">🎉 완료!</p><p>수고하셨습니다.</p><button onclick="startFlash()">다시 시작</button></div>';
+    return;
+  }
+  showFlash();
+}
+function startQuiz() {
+  if (!vocab.length) return alert('단어장이 비어 있습니다.');
+  currentList = [...vocab].sort(() => Math.random() - 0.5);
+  quizIndex = 0;
+  showQuiz();
+}
+function showQuiz() {
+  const item = currentList[quizIndex];
+  document.getElementById('quizArea').innerHTML = `
+    <div class="card" style="max-width:480px;margin:16px auto;">
+      <span class="category">${item.category || ''}</span>
+      <h3 style="margin:10px 0;">이 뜻의 영어 문장은?</h3>
+      <p style="font-size:1.15rem;">${escapeHtml(item.meaning)}</p>
+      <input id="quizAns" placeholder="영어 문장 입력" autocomplete="off" style="margin:10px 0;">
+      <button onclick="checkQuiz('${item.word.replace(/'/g,"\\'")}')">확인</button>
+      <p id="quizFb" style="min-height:1.5em;margin:8px 0;"></p>
+      <button class="secondary" onclick="nextQuiz()">다음 문제</button>
+      <p class="small" style="text-align:center;">${quizIndex + 1} / ${currentList.length}</p>
+    </div>
+  `;
+  setTimeout(() => document.getElementById('quizAns')?.focus(), 100);
+}
+function checkQuiz(correct) {
+  const ans = (document.getElementById('quizAns')?.value || '').trim().toLowerCase();
+  const fb = document.getElementById('quizFb');
+  if (ans === correct.toLowerCase()) {
+    fb.innerHTML = '<span style="color:#10b981;font-weight:bold;">✓ 정답!</span>';
+  } else {
+    fb.innerHTML = `<span style="color:#ef4444;">✗ 오답<br>정답: ${escapeHtml(correct)}</span>`;
+  }
+}
+function nextQuiz() {
+  quizIndex++;
+  if (quizIndex >= currentList.length) {
+    document.getElementById('quizArea').innerHTML = '<div class="card" style="text-align:center;padding:30px;"><p style="font-size:1.3rem;">퀴즈 완료!</p><button onclick="startQuiz()">다시 시작</button></div>';
+    return;
+  }
+  showQuiz();
+}
+document.getElementById('analyzeBtn').onclick = () => {
+  const text = document.getElementById('wordInput').value.trim();
+  if (!text) return alert('입력해주세요.');
+  document.getElementById('storyText').value = generateStory(text);
+  document.getElementById('saveSection').style.display = 'block';
+  document.getElementById('analysisResult').innerHTML = `<div class="card"><p>분석: <strong>${escapeHtml(text)}</strong></p></div>`;
+};
+document.getElementById('saveBtn').onclick = () => {
+  const word = document.getElementById('wordInput').value.trim();
+  const meaning = document.getElementById('meaningInput').value.trim();
+  const story = document.getElementById('storyText').value.trim();
+  if (!word || !meaning) return alert('문장과 뜻을 입력하세요.');
+  vocab.push({
+    id: Date.now(),
+    word, meaning, story,
+    category: '사용자',
+    created: new Date().toISOString(),
+    lastStudied: null
+  });
+  saveVocab();
+  alert('저장되었습니다!');
+  document.getElementById('saveSection').style.display = 'none';
+  document.getElementById('wordInput').value = '';
+};
+document.getElementById('searchInput').oninput = e => renderVocab(e.target.value);
+document.getElementById('startFlash').onclick = startFlash;
+document.getElementById('startQuiz').onclick = startQuiz;
+document.getElementById('exportBtn').onclick = () => {
+  const blob = new Blob([JSON.stringify(vocab, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '생활영어100.json';
+  a.click();
+};
+document.querySelectorAll('.nav-btn, .tabs-desktop button').forEach(btn => {
+  btn.onclick = () => switchTab(btn.dataset.tab);
+});
+window.speak = speak;
+window.nextCard = nextCard;
+window.nextQuiz = nextQuiz;
+window.checkQuiz = checkQuiz;
+window.loadDefaultSentences = loadDefaultSentences;
+window.onload = () => {
+  loadVocab();
+  initTheme();
+  renderAlphabet();
+  renderVocab();
+};
+</script>
+</body>
+</html>
