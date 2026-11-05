@@ -210,7 +210,7 @@ button.danger { background: var(--accent); }
   <div class="header">
     <button id="themeToggle" class="theme-btn">다크</button>
     <h1>로마노프 초능력 영어</h1>
-    <div class="subtitle">생활영어 100문장 · 모바일 최적화</div>
+    <div class="subtitle">생활영어 <span class="totalCount">200</span>문장 · 모바일 최적화</div>
   </div>
   <div class="tabs-desktop">
     <button class="tab-btn active" data-tab="usage">사용법</button>
@@ -223,13 +223,13 @@ button.danger { background: var(--accent); }
     <h2>사용법</h2>
     <div class="card">
       <ol style="padding-left: 20px; margin: 0;">
-        <li><strong>단어장</strong>에 생활영어 100문장이 미리 저장되어 있습니다.</li>
+        <li><strong>단어장</strong>에 생활영어 <span class="totalCount">200</span>문장이 미리 저장되어 있습니다.</li>
         <li>각 문장에 <strong>알파벳 스토리</strong>가 연결되어 있습니다.</li>
         <li>하단 <strong>복습</strong> 탭에서 플래시카드로 바로 학습하세요.</li>
         <li>카드를 탭하면 뒤집힙니다 (영어 ↔ 뜻+스토리).</li>
         <li>홈 화면에 추가하면 앱처럼 사용할 수 있습니다.</li>
       </ol>
-      <p style="margin-top:12px;"><button onclick="loadDefaultSentences()" class="secondary">100문장 다시 불러오기</button></p>
+      <p style="margin-top:12px;"><button onclick="loadDefaultSentences()" class="secondary">빠진 기본 문장 불러오기</button></p>
     </div>
     <div class="card" style="margin-top:12px;">
       <p style="margin:0;"><strong>홈 화면에 추가하는 방법</strong></p>
@@ -259,7 +259,7 @@ button.danger { background: var(--accent); }
     <input type="text" id="searchInput" placeholder="검색 (문장, 뜻, 카테고리)">
     <div class="row" style="margin:8px 0;">
       <button id="exportBtn" class="secondary">내보내기</button>
-      <button onclick="loadDefaultSentences()">100문장 불러오기</button>
+      <button onclick="loadDefaultSentences()">기본 <span class="totalCount">200</span>문장 불러오기</button>
     </div>
     <div id="stats"></div>
     <div id="vocabList"></div>
@@ -396,6 +396,116 @@ const defaultSentences = [
   {en:"Call me later.", ko:"나중에 전화해요.", cat:"일상"},
   {en:"Have a great weekend!", ko:"좋은 주말 보내세요!", cat:"인사"}
 ];
+// ===== 문장 묶음(팩) — 매주 새 팩을 아래에 추가하고 SENTENCE_PACKS에 등록 =====
+// 팩2: 101~200번 (2026-11-05). id는 고정값(1000000000 + 팩번호*1000 + 팩 안 순번), 절대 겹치거나 바뀌면 안 됨, 절대 바꾸지 말 것.
+const pack2Sentences = [
+  {id:1000002001, en:"Where can I check in for my flight?", ko:"비행기 탑승 수속은 어디서 하나요?", cat:"여행"},
+  {id:1000002002, en:"I'd like a window seat, please.", ko:"창가 자리로 주세요.", cat:"여행"},
+  {id:1000002003, en:"Can I take this bag on the plane?", ko:"이 가방 기내에 들고 탈 수 있나요?", cat:"여행"},
+  {id:1000002004, en:"My flight has been delayed.", ko:"제 비행기가 지연됐어요.", cat:"여행"},
+  {id:1000002005, en:"Which gate does this flight leave from?", ko:"이 비행기는 몇 번 게이트에서 출발하나요?", cat:"여행"},
+  {id:1000002006, en:"I'm here on vacation.", ko:"휴가차 왔어요.", cat:"여행"},
+  {id:1000002007, en:"I'll be staying for a week.", ko:"일주일 동안 머물 거예요.", cat:"여행"},
+  {id:1000002008, en:"I have nothing to declare.", ko:"신고할 물건이 없어요.", cat:"여행"},
+  {id:1000002009, en:"My luggage didn't arrive.", ko:"제 짐이 안 나왔어요.", cat:"여행"},
+  {id:1000002010, en:"Where can I exchange money?", ko:"환전은 어디서 할 수 있나요?", cat:"여행"},
+  {id:1000002011, en:"Could you take a picture of us?", ko:"저희 사진 좀 찍어 주시겠어요?", cat:"여행"},
+  {id:1000002012, en:"Is there a tourist information center nearby?", ko:"근처에 관광 안내소가 있나요?", cat:"여행"},
+  {id:1000002013, en:"What time does the museum open?", ko:"박물관은 몇 시에 문을 여나요?", cat:"여행"},
+  {id:1000002014, en:"Are there any good places to visit around here?", ko:"이 근처에 가 볼 만한 곳이 있나요?", cat:"여행"},
+  {id:1000002015, en:"Is it safe to walk around here at night?", ko:"밤에 이 근처를 걸어 다녀도 안전한가요?", cat:"여행"},
+  {id:1000002016, en:"I have a reservation under Kim.", ko:"김이라는 이름으로 예약했어요.", cat:"호텔"},
+  {id:1000002017, en:"What time is checkout?", ko:"체크아웃은 몇 시예요?", cat:"호텔"},
+  {id:1000002018, en:"Is breakfast included?", ko:"조식 포함인가요?", cat:"호텔"},
+  {id:1000002019, en:"What's the Wi-Fi password?", ko:"와이파이 비밀번호가 뭐예요?", cat:"호텔"},
+  {id:1000002020, en:"Can I leave my bags here until check-in?", ko:"체크인 전까지 짐을 여기 맡겨도 될까요?", cat:"호텔"},
+  {id:1000002021, en:"The air conditioner isn't working.", ko:"에어컨이 작동하지 않아요.", cat:"호텔"},
+  {id:1000002022, en:"Could I get some extra towels?", ko:"수건 좀 더 받을 수 있을까요?", cat:"호텔"},
+  {id:1000002023, en:"I'd like to stay one more night.", ko:"하루 더 묵고 싶어요.", cat:"호텔"},
+  {id:1000002024, en:"Could I have a wake-up call at seven?", ko:"7시에 모닝콜 해 주시겠어요?", cat:"호텔"},
+  {id:1000002025, en:"I locked myself out of my room.", ko:"방 열쇠를 안에 두고 나왔어요.", cat:"호텔"},
+  {id:1000002026, en:"A table for two, please.", ko:"두 명 자리 부탁해요.", cat:"식당"},
+  {id:1000002027, en:"Do I need a reservation?", ko:"예약해야 하나요?", cat:"식당"},
+  {id:1000002028, en:"How long is the wait?", ko:"얼마나 기다려야 하나요?", cat:"식당"},
+  {id:1000002029, en:"Could we sit outside?", ko:"밖에 앉아도 될까요?", cat:"식당"},
+  {id:1000002030, en:"Is this dish spicy?", ko:"이 요리 매운가요?", cat:"식당"},
+  {id:1000002031, en:"Could I get the dressing on the side?", ko:"드레싱은 따로 주시겠어요?", cat:"식당"},
+  {id:1000002032, en:"I didn't order this.", ko:"이건 제가 주문한 게 아니에요.", cat:"식당"},
+  {id:1000002033, en:"Could I get a refill?", ko:"리필해 주실 수 있나요?", cat:"식당"},
+  {id:1000002034, en:"Could you box this up for me?", ko:"남은 것 좀 포장해 주시겠어요?", cat:"식당"},
+  {id:1000002035, en:"Can we split the bill?", ko:"따로 계산해도 될까요?", cat:"식당"},
+  {id:1000002036, en:"It's on me today.", ko:"오늘은 제가 낼게요.", cat:"식당"},
+  {id:1000002037, en:"Everything was great, thank you.", ko:"전부 맛있었어요, 감사합니다.", cat:"식당"},
+  {id:1000002038, en:"I'm running a little late.", ko:"조금 늦을 것 같아요.", cat:"직장"},
+  {id:1000002039, en:"Can we reschedule the meeting?", ko:"회의 일정을 다시 잡을 수 있을까요?", cat:"직장"},
+  {id:1000002040, en:"Let me check my schedule.", ko:"제 일정 좀 확인해 볼게요.", cat:"직장"},
+  {id:1000002041, en:"I'll get back to you on that.", ko:"그건 확인하고 다시 알려 드릴게요.", cat:"직장"},
+  {id:1000002042, en:"Could you send me the file?", ko:"그 파일 좀 보내 주시겠어요?", cat:"직장"},
+  {id:1000002043, en:"When is the deadline?", ko:"마감이 언제예요?", cat:"직장"},
+  {id:1000002044, en:"I'm working on it.", ko:"지금 하고 있어요.", cat:"직장"},
+  {id:1000002045, en:"I'll be out of the office tomorrow.", ko:"내일은 사무실에 없어요.", cat:"직장"},
+  {id:1000002046, en:"Can I ask a quick question?", ko:"간단한 질문 하나 해도 될까요?", cat:"직장"},
+  {id:1000002047, en:"Let's take a short break.", ko:"잠깐 쉬었다 하죠.", cat:"직장"},
+  {id:1000002048, en:"Thanks for your hard work.", ko:"수고 많으셨어요.", cat:"직장"},
+  {id:1000002049, en:"I'm off today.", ko:"오늘 쉬는 날이에요.", cat:"직장"},
+  {id:1000002050, en:"Could you walk me through it?", ko:"그거 차근차근 설명해 주시겠어요?", cat:"직장"},
+  {id:1000002051, en:"Let's keep in touch.", ko:"계속 연락하고 지내요.", cat:"직장"},
+  {id:1000002052, en:"I'll take care of it.", ko:"제가 처리할게요.", cat:"직장"},
+  {id:1000002053, en:"Do you have this in another color?", ko:"이거 다른 색상 있나요?", cat:"쇼핑"},
+  {id:1000002054, en:"Can I pay in cash?", ko:"현금으로 내도 되나요?", cat:"쇼핑"},
+  {id:1000002055, en:"Could you gift wrap it?", ko:"선물 포장해 주시겠어요?", cat:"쇼핑"},
+  {id:1000002056, en:"Is this tax-free?", ko:"이거 면세 되나요?", cat:"쇼핑"},
+  {id:1000002057, en:"When will it be back in stock?", ko:"언제 다시 입고되나요?", cat:"쇼핑"},
+  {id:1000002058, en:"Can I get a refund?", ko:"환불받을 수 있나요?", cat:"쇼핑"},
+  {id:1000002059, en:"I'd like to exchange this for a smaller size.", ko:"이거 더 작은 사이즈로 교환하고 싶어요.", cat:"쇼핑"},
+  {id:1000002060, en:"Is there a warranty?", ko:"보증 기간이 있나요?", cat:"쇼핑"},
+  {id:1000002061, en:"Where's the checkout?", ko:"계산대가 어디예요?", cat:"쇼핑"},
+  {id:1000002062, en:"Do you deliver?", ko:"배달해 주시나요?", cat:"쇼핑"},
+  {id:1000002063, en:"It doesn't fit.", ko:"사이즈가 안 맞아요.", cat:"쇼핑"},
+  {id:1000002064, en:"I'll think about it.", ko:"좀 생각해 볼게요.", cat:"쇼핑"},
+  {id:1000002065, en:"I need to see a doctor.", ko:"진찰을 받아야 해요.", cat:"병원"},
+  {id:1000002066, en:"I'd like to make an appointment.", ko:"진료 예약을 하고 싶어요.", cat:"병원"},
+  {id:1000002067, en:"I have a headache.", ko:"머리가 아파요.", cat:"병원"},
+  {id:1000002068, en:"I have a sore throat.", ko:"목이 아파요.", cat:"병원"},
+  {id:1000002069, en:"I think I have a fever.", ko:"열이 나는 것 같아요.", cat:"병원"},
+  {id:1000002070, en:"My stomach hurts.", ko:"배가 아파요.", cat:"병원"},
+  {id:1000002071, en:"I feel dizzy.", ko:"어지러워요.", cat:"병원"},
+  {id:1000002072, en:"I've had a cough for three days.", ko:"사흘째 기침을 하고 있어요.", cat:"병원"},
+  {id:1000002073, en:"It hurts right here.", ko:"바로 여기가 아파요.", cat:"병원"},
+  {id:1000002074, en:"Do I need a prescription?", ko:"처방전이 필요한가요?", cat:"병원"},
+  {id:1000002075, en:"How often should I take this?", ko:"이 약은 얼마나 자주 먹어야 하나요?", cat:"병원"},
+  {id:1000002076, en:"Is there a pharmacy nearby?", ko:"근처에 약국이 있나요?", cat:"병원"},
+  {id:1000002077, en:"Who's calling, please?", ko:"누구신가요?", cat:"전화"},
+  {id:1000002078, en:"Can I speak to Mr. Lee?", ko:"이 선생님과 통화할 수 있을까요?", cat:"전화"},
+  {id:1000002079, en:"Hold on, please.", ko:"잠시만 기다려 주세요.", cat:"전화"},
+  {id:1000002080, en:"He's not available right now.", ko:"그분은 지금 통화가 어려우세요.", cat:"전화"},
+  {id:1000002081, en:"Can I take a message?", ko:"메시지 남겨 드릴까요?", cat:"전화"},
+  {id:1000002082, en:"Sorry, I think I have the wrong number.", ko:"죄송해요, 전화를 잘못 건 것 같아요.", cat:"전화"},
+  {id:1000002083, en:"You're breaking up.", ko:"소리가 자꾸 끊겨요.", cat:"전화"},
+  {id:1000002084, en:"I'll call you back.", ko:"다시 전화 드릴게요.", cat:"전화"},
+  {id:1000002085, en:"What are you up to this weekend?", ko:"이번 주말에 뭐 해요?", cat:"일상"},
+  {id:1000002086, en:"Do you want to grab a coffee?", ko:"커피 한잔할래요?", cat:"일상"},
+  {id:1000002087, en:"I'm running out of time.", ko:"시간이 얼마 없어요.", cat:"일상"},
+  {id:1000002088, en:"It's up to you.", ko:"당신이 정하세요.", cat:"일상"},
+  {id:1000002089, en:"I'll let you know.", ko:"알려 드릴게요.", cat:"일상"},
+  {id:1000002090, en:"Long time no see!", ko:"오랜만이에요!", cat:"일상"},
+  {id:1000002091, en:"What's the weather like today?", ko:"오늘 날씨 어때요?", cat:"일상"},
+  {id:1000002092, en:"It looks like it's going to rain.", ko:"비가 올 것 같아요.", cat:"일상"},
+  {id:1000002093, en:"I'm so happy for you.", ko:"정말 잘됐네요.", cat:"감정"},
+  {id:1000002094, en:"That's too bad.", ko:"그거 참 안됐네요.", cat:"감정"},
+  {id:1000002095, en:"I'm really nervous.", ko:"정말 긴장돼요.", cat:"감정"},
+  {id:1000002096, en:"You made my day.", ko:"덕분에 기분이 정말 좋아졌어요.", cat:"감정"},
+  {id:1000002097, en:"I can't believe it!", ko:"믿을 수가 없어요!", cat:"감정"},
+  {id:1000002098, en:"I'm a little upset.", ko:"조금 속상해요.", cat:"감정"},
+  {id:1000002099, en:"That's a relief.", ko:"다행이에요.", cat:"감정"},
+  {id:1000002100, en:"Good luck!", ko:"행운을 빌어요!", cat:"감정"}
+];
+// 팩1(1~100번)은 기존 defaultSentences 그대로 사용 (기존 사용자 데이터 id는 건드리지 않음)
+const SENTENCE_PACKS = [
+  { version: 1, sentences: defaultSentences.map((s, i) => ({ id: 1000001000 + i + 1, ...s })) },
+  { version: 2, sentences: pack2Sentences }
+];
+const ALL_DEFAULT_SENTENCES = SENTENCE_PACKS.flatMap(p => p.sentences);
 const STORAGE_KEY = 'romanoff100Mobile';
 let vocab = [];
 function generateStory(sentence) {
@@ -410,25 +520,44 @@ function generateStory(sentence) {
   s += `\n기억 흐름: ${parts.slice(0,4).join(' → ')}`;
   return s;
 }
-function loadVocab() {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    vocab = raw ? JSON.parse(raw) : [];
-    if (!Array.isArray(vocab) || vocab.length === 0) loadDefaultSentences(false);
-  } catch { loadDefaultSentences(false); }
-}
-function loadDefaultSentences(alertUser = true) {
-  vocab = defaultSentences.map((s, i) => ({
-    id: Date.now() + i,
+function makeDefaultItem(s) {
+  return {
+    id: s.id,
     word: s.en,
     meaning: s.ko,
     story: generateStory(s.en),
     category: s.cat,
     created: new Date().toISOString(),
     lastStudied: null
-  }));
+  };
+}
+// 기존 단어장은 그대로 두고, 아직 없는 기본 문장만 추가 (id 또는 같은 영어 문장으로 중복 확인)
+function mergeDefaultSentences() {
+  const ids = new Set(vocab.map(v => v.id));
+  const words = new Set(vocab.map(v => (v.word || '').trim().toLowerCase()));
+  let added = 0;
+  for (const s of ALL_DEFAULT_SENTENCES) {
+    if (ids.has(s.id) || words.has(s.en.trim().toLowerCase())) continue;
+    vocab.push(makeDefaultItem(s));
+    ids.add(s.id); words.add(s.en.trim().toLowerCase());
+    added++;
+  }
+  return added;
+}
+function loadVocab() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    vocab = raw ? JSON.parse(raw) : [];
+    if (!Array.isArray(vocab)) vocab = [];
+  } catch { vocab = []; }
+  if (mergeDefaultSentences() > 0) saveVocab();
+}
+function loadDefaultSentences(alertUser = true) {
+  const added = mergeDefaultSentences();
   saveVocab();
-  if (alertUser) alert('생활영어 100문장이 저장되었습니다!');
+  if (alertUser) alert(added > 0
+    ? `기본 문장 ${added}개를 새로 추가했습니다! (기존 문장·학습 기록은 그대로)`
+    : `기본 ${ALL_DEFAULT_SENTENCES.length}문장이 이미 모두 들어 있습니다.`);
   renderVocab();
 }
 function saveVocab() {
@@ -607,7 +736,7 @@ document.getElementById('exportBtn').onclick = () => {
   const blob = new Blob([JSON.stringify(vocab, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = '생활영어100.json';
+  a.download = '생활영어단어장.json';
   a.click();
 };
 document.querySelectorAll('.nav-btn, .tabs-desktop button').forEach(btn => {
@@ -620,6 +749,7 @@ window.checkQuiz = checkQuiz;
 window.loadDefaultSentences = loadDefaultSentences;
 window.onload = () => {
   loadVocab();
+  document.querySelectorAll('.totalCount').forEach(el => el.textContent = ALL_DEFAULT_SENTENCES.length);
   initTheme();
   renderAlphabet();
   renderVocab();
